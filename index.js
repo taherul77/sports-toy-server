@@ -28,14 +28,32 @@ async function run() {
     await client.connect();
 
 const toyCollection = client.db('toy').collection('toys');
+const categoryCollection = client.db('toy').collection('category');
 
 
 
-app.get('/toys',async(req,res)=>{
-    const data = toyCollection.find();
+app.get('/categories',async(req,res)=>{
+    const data = categoryCollection.find();
     const result = await data.toArray();
     res.send(result);
 })
+
+app.get('/toys',async(req,res)=>{
+  const data = toyCollection.find().limit(20);
+  const result = await data.toArray();
+  res.send(result);
+})
+
+app.get('/toys/:category',async(req,res)=>{
+  const {category} = req.params;
+  const data =toyCollection.find({toy_category: category});
+  const result = await data.toArray();
+    res.send(result);
+
+  console.log(result);
+
+})
+
 
 
 
