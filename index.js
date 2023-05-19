@@ -10,7 +10,7 @@ app.use(express.json());
 
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.0gxrq1n.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -44,15 +44,32 @@ app.get('/toys',async(req,res)=>{
   res.send(result);
 })
 
+
+
 app.get('/toys/:category',async(req,res)=>{
   const {category} = req.params;
   const data =toyCollection.find({toy_category: category});
   const result = await data.toArray();
     res.send(result);
 
-  console.log(result);
 
 })
+app.get("/single-toys/:id", async (req, res) => {
+  const { id } = req.params;
+  const data = await toyCollection.findOne({ _id: new ObjectId(id) })
+  const result = data;
+  res.send(result);
+  console.log(result);
+});
+
+
+
+
+app.post("/add-toy", async (req, res) => {
+  const newToy = req.body;
+  const result = await toyCollection.insertOne(newToy);
+  res.send(result);
+});
 
 
 
