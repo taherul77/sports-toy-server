@@ -10,6 +10,7 @@ app.use(express.json());
 
 
 
+
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.0gxrq1n.mongodb.net/?retryWrites=true&w=majority`;
 
@@ -70,6 +71,14 @@ app.post("/add-toy", async (req, res) => {
   const result = await toyCollection.insertOne(newToy);
   res.send(result);
 });
+
+app.get('/my-toy',async(req,res)=>{
+
+
+  const data = toyCollection.find();
+  const result = await data.toArray();
+  res.send(result);
+})
 
 
 
