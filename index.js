@@ -60,7 +60,7 @@ app.get("/single-toys/:id", async (req, res) => {
   const data = await toyCollection.findOne({ _id: new ObjectId(id) })
   const result = data;
   res.send(result);
-  console.log(result);
+  
 });
 
 
@@ -74,11 +74,16 @@ app.post("/add-toy", async (req, res) => {
 
 app.get('/my-toy',async(req,res)=>{
 
-
-  const data = toyCollection.find();
+  let query = {};
+  if(req.query?.seller_email){
+query= {seller_email: req.query.seller_email}
+  }
+  const data = toyCollection.find(query);
   const result = await data.toArray();
   res.send(result);
 })
+
+
 
 
 
