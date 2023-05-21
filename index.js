@@ -39,18 +39,7 @@ async function run() {
             res.send(result);
         });
 
-        app.get("/toys/:category", async (req, res) => {
-            const { category } = req.params;
-            const data = toyCollection.find({ toy_category: category });
-            const result = await data.toArray();
-            res.send(result);
-        });
-        app.get("/single-toys/:id", async (req, res) => {
-            const { id } = req.params;
-            const data = await toyCollection.findOne({ _id: new ObjectId(id) });
-            const result = data;
-            res.send(result);
-        });
+       
 
         app.get("/my-toy/update-toy/:id", async (req, res) => {
             const id = req.params.id;
